@@ -3,15 +3,20 @@
 # @note Used to define the submitted cluster, title, description, and
 #   hard-coded/user-defined attributes that make up this Batch Connect app.
 ---
-
-# **MUST** set cluster id here that matches cluster configuration file located
-# under /etc/ood/config/clusters.d/*.yml
-# @example Use the Owens cluster at Ohio Supercomputer Center
-#     cluster: "owens"
-cluster: ""
-
-# Define attribute values that aren't meant to be modified by the user within
-# the Dashboard form
+cluster:
+  - "bigblue"
+form:
+  - modules
+  - extra_jupyter_args
+  - auto_accounts
+  - bc_num_hours
+  - bc_num_slots
+  - num_cores
+  - ngpus
+  - alloc_mem
+  - partitions_list
+  - bc_vnc_resolution
+  - bc_email_on_started
 attributes:
   # Set the corresponding modules that need to be loaded for Jupyter to run
   #
@@ -25,26 +30,110 @@ attributes:
   #     modules: "python/3.5"
   # @example Using combination of modules
   #     modules: "python/3.5 cuda/8.0.44"
-  modules: "python"
+  modules: 
+    widget: "text_field"
+    label: "modules to load"
+    value: "python"
+    help: |
+      Please select modules from "module avail" on the cluster. Use space between each module. 
+      For example "python cuda"
+      
 
   # Any extra command line arguments to feed to the `jupyter notebook ...`
   # command that launches the Jupyter notebook within the batch job
   extra_jupyter_args: ""
+  alloc_mem:
+    widget: "number_field"
+    label: "Memory (GB)"
+    value: 4
+    help: "Memory allocated for job up to 1536 GB"
+    min: 4
+    max: 1536
+    step: 4
+  num_cores:
+    widget: "number_field"
+    label: "Number of cores"
+    value: 1
+    help: |
+      Number of cores on node type (4 GB per core unless requesting whole
+      node). Leave blank if requesting full node.
+    min: 0
+    max: 192
+    step: 1
+  ngpus:
+    widget: "number_field"
+    label: "Number of GPUs"
+    value: 0
+    help: |
+      Number of GPUs in either igpuq or agpuq partitions.
+    min: 0
+    max: 2
+    step: 1
+  bc_num_slots: "1"
+  bc_vnc_resolution:
+    required: true
+  partitions_list:
+      widget: select
+      label: "Partition"
+      help: |
+        - **Standard Compute** <br>
+          These are standard HPC machines. BigBlue icomputeq has 50 of these nodes with 40
+          cores and 192 GB of memory and acomputeq has 24 of these nodes with 192 cores.
+          Chosing "any" as the node type will decrease your wait time.
+        - **GPU Enabled** <br>
+          These are HPC machines with GPUs. BigBlue igpuq has 6 nodes with 2 [NVIDIA Tesla V100 GPUs]
+          and agpuq has 4 nodes with 2 [NVIDIA Tesla A100 GPUs]. They have the same
+          CPU and memory characteristics of standard compute. However, igpuq's 40 core machines
+          have 2 GPUs with 16 GB of RAM; and agpuq's 192 core machines have 2 GPUs with 100 GB of RAM.
+        - **Large Memory** <br>
+          These are HPC machines with very large amounts of memory. BigBlue ibigmemq has 4 bigmem nodes
+          with 40 cores and up to 1.5 TB of RAM, and abigmemq has 4 bigmem nodes with 1.5 TB of RAM and 192 cores.
 
-# All of the attributes that make up the Dashboard form (in respective order),
-# and made available to the submit configuration file and the template ERB
-# files
-#
-# @note You typically do not need to modify this unless you want to add a new
-#   configurable value
-# @note If an attribute listed below is hard-coded above in the `attributes`
-#   option, then it will not appear in the form page that the user sees in the
-#   Dashboard
-form:
-  - modules
-  - extra_jupyter_args
-  - bc_account
-  - bc_queue
-  - bc_num_hours
-  - bc_num_slots
-  - bc_email_on_started
+        [NVIDIA Tesla V100 GPUs]: https://www.nvidia.com/en-gb/data-center/tesla-v100/
+        [NVIDIA Tesla A100 GPUs]: https://www.nvidia.com/en-us/data-center/a100/
+      options:
+        - [
+            "any",     "any",
+            data-max-num-cores-for-icomputeq: 40,
+            data-max-num-cores-for-acomputeq: 192,
+          ]
+        - [
+            "icomputeq",     "icomputeq",
+            data-max-num-cores-for-icomputeq: 40,
+            data-max-num-cores-for-acomputeq: false,
+          ]
+        - [
+            "iwholeq",     "iwholeq",
+            data-max-num-cores-for-icomputeq: 40,
+            data-max-num-cores-for-acomputeq: false,
+          ]
+        - [
+            "acomputeq",     "acomputeq",
+            data-max-num-cores-for-icomputeq: false,
+            data-max-num-cores-for-acomputeq: 192,
+          ]
+        - [
+            "awholeq",     "awholeq",
+            data-max-num-cores-for-icomputeq: false,
+            data-max-num-cores-for-acomputeq: 192,
+          ]
+        - [
+            "igpuq",     "igpuq",
+            data-max-num-cores-for-icomputeq: 40,
+            data-max-num-cores-for-acomputeq: false,
+          ]
+        - [
+            "agpuq",     "agpuq",
+            data-max-num-cores-for-icomputeq: false,
+            data-max-num-cores-for-acomputeq: 192,
+          ]
+        - [
+            "ibigmemq",     "ibigmemq",
+            data-max-num-cores-for-icomputeq: 40,
+            data-max-num-cores-for-acomputeq: false,
+          ]
+        - [
+            "abigmemq", "abigmemq",
+            data-max-num-cores-for-icomputeq: false,
+            data-max-num-cores-for-acomputeq: 192,
+          ]
