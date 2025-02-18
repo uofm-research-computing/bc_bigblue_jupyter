@@ -21,6 +21,11 @@ module load <%= context.modules %>
 module list
 <%- end -%>
 
+<%- unless context.user_script.blank? -%>
+
+source <%= context.user_script %>
+
+<%- end -%>
 # Benchmark info
 echo "TIMING - Starting jupyter at: $(date)"
 

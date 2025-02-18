@@ -14,6 +14,7 @@
 batch_connect:
   template: basic
   set_host: "host=$(hostname -A | awk '{print $1}')"
+  script_file: "600"
 script:
   native:
   <%- slurm_args.each do |arg| %>

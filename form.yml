@@ -7,7 +7,6 @@ cluster:
   - "bigblue"
 form:
   - modules
-  - extra_jupyter_args
   - auto_accounts
   - bc_num_hours
   - bc_num_slots
@@ -15,7 +14,8 @@ form:
   - ngpus
   - alloc_mem
   - partitions_list
-  - bc_vnc_resolution
+  - user_script
+  - extra_jupyter_args
   - bc_email_on_started
 attributes:
   # Set the corresponding modules that need to be loaded for Jupyter to run
@@ -35,13 +35,22 @@ attributes:
     label: "modules to load"
     value: "python"
     help: |
-      Please select modules from "module avail" on the cluster. Use space between each module. 
-      For example "python cuda"
-      
-
+      Please select modules from "module avail" on the cluster. Use space between each module. For example "python cuda"
   # Any extra command line arguments to feed to the `jupyter notebook ...`
   # command that launches the Jupyter notebook within the batch job
-  extra_jupyter_args: ""
+  extra_jupyter_args:
+    widget: "text_field"
+    label: "Other jupyter notebook arguments"
+    value: ""
+    help: |
+      These are options like "--version"
+  user_script:
+    widget: "text_field"
+    label: "User script"
+    value: ""
+    help: |
+      User script to be sourced, such as in a python environment.
+      Make sure to use the full path like '/home/username/.bashrc'
   alloc_mem:
     widget: "number_field"
     label: "Memory (GB)"
@@ -70,8 +79,6 @@ attributes:
     max: 2
     step: 1
   bc_num_slots: "1"
-  bc_vnc_resolution:
-    required: true
   partitions_list:
       widget: select
       label: "Partition"

@@ -6,6 +6,7 @@ role: batch_connect
 description: |+
   This app will launch a Jupyter Notebook server on one or more CPUs or GPUs. 
   Please install jupyter notebook prior to using as we are not installing python packages globally.
+  If you want more features in this module, please go [here](https://github.com/uofm-research-computing/bc_bigblue_jupyter).
   ### Quick installation of jupyter notebook
     * Click "Clusters" and then "BigBlue Shell Access" on the bar above
     * Run the command `module load python` 
