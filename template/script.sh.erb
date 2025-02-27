@@ -33,7 +33,7 @@ echo "TIMING - Starting jupyter at: $(date)"
 set -x
 <%- unless context.singularity_image.blank? -%>
 	module load singularity
-	singularity exec --bind="/project:/project" --bind="/scratch:/scratch" --cleanenv --env=$(env | grep SLURM_ |  sed -z 's/\n/,/g; s/.$//') <%= context.singularity_image %> jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
+	singularity exec --nv --bind="/project:/project" --bind="/scratch:/scratch" --cleanenv --env=$(env | grep SLURM_ |  sed -z 's/\n/,/g; s/.$//') <%= context.singularity_image %> jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
 <%- else -%>
 	jupyter notebook --config="${CONFIG_FILE}" <%= context.extra_jupyter_args %>
 <%- end -%>
