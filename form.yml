@@ -13,9 +13,10 @@ form:
   - num_cores
   - ngpus
   - alloc_mem
-  - partitions_list
   - user_script
+  - singularity_image
   - extra_jupyter_args
+  - partitions_list
   - bc_email_on_started
 attributes:
   # Set the corresponding modules that need to be loaded for Jupyter to run
@@ -51,6 +52,13 @@ attributes:
     help: |
       User script to be sourced, such as in a python environment.
       Make sure to use the full path like '/home/username/.bashrc'
+  singularity_image:
+    widget: "text_field"
+    label: "Singularity Image"
+    value: ""
+    help: |
+      Singularity image file (.sif).
+      Make sure to use the full path like '/home/username/jupyter.sif'
   alloc_mem:
     widget: "number_field"
     label: "Memory (GB)"
