@@ -11,13 +11,14 @@ form:
   - bc_num_hours
   - bc_num_slots
   - num_cores
+  - partitions_list
   - ngpus
   - alloc_mem
+  - bc_email_on_started
   - user_script
   - singularity_image
+  - singularity_run
   - extra_jupyter_args
-  - partitions_list
-  - bc_email_on_started
 attributes:
   # Set the corresponding modules that need to be loaded for Jupyter to run
   #
@@ -44,7 +45,7 @@ attributes:
     label: "Other jupyter notebook arguments"
     value: ""
     help: |
-      These are options like "--version"
+      These are options like "--notebook-dir=/project/username/"
   user_script:
     widget: "text_field"
     label: "User script"
@@ -57,8 +58,14 @@ attributes:
     label: "Singularity Image"
     value: ""
     help: |
-      Singularity image file (.sif).
+      Singularity image file (.sif) for singularity containers.
       Make sure to use the full path like '/home/username/jupyter.sif'
+  singularity_run:
+    widget: "check_box"
+    label: "Singularity Run instead of singularity exec"
+    value: "false"
+    help: |
+      Use internal singularity runscript rather than exec calling jupyter notebook directly.
   alloc_mem:
     widget: "number_field"
     label: "Memory (GB)"
