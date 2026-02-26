@@ -11,17 +11,10 @@ form:
   - bc_num_hours
   - bc_num_slots
   - num_cores
-<<<<<<< HEAD
   - global_queues
   - ngpus
   - alloc_mem
   - email
-=======
-  - partitions_list
-  - ngpus
-  - alloc_mem
-  - bc_email_on_started
->>>>>>> ee4f0a4a45a799aaa3ab1bcd4e65889d14db0841
   - user_script
   - singularity_image
   - singularity_run
@@ -73,7 +66,6 @@ attributes:
     value: "false"
     help: |
       Use internal singularity runscript rather than exec calling jupyter notebook directly.
-<<<<<<< HEAD
   email:
     label: Email Address
     help: |
@@ -82,8 +74,6 @@ attributes:
       --------------------------
     cacheable: true
     widget: text_field
-=======
->>>>>>> ee4f0a4a45a799aaa3ab1bcd4e65889d14db0841
   alloc_mem:
     widget: "number_field"
     label: "Memory (GB)"
